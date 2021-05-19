@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from . import models
 
 # Register your models here.
@@ -8,7 +8,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ['display_image', 'title', 'description', 'author']
 
     def display_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} width=80px height=80px>')
+        return format_html(f'<img src={obj.image.url} width=50px height=50px>')
     
     display_image.short_description = 'image'
 
@@ -20,7 +20,7 @@ class PostAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags',)
 
     def display_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} width=80px height=80px>')
+        return format_html(f'<img src={obj.image.url} width=80px height=80px>')
     
     display_image.short_description = 'image'
 
@@ -35,7 +35,7 @@ class AuthorAdmin(admin.ModelAdmin):
     list_display = ['display_image', 'user', 'description']
 
     def display_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} width=80px height=80px>')
+        return format_html(f'<img src={obj.image.url} width=80px height=80px>')
     
     display_image.short_description = 'image'
 

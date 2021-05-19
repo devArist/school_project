@@ -5,7 +5,7 @@ class Service(models.Model):
     image = models.FileField(upload_to='img', blank=True, null=True)
     icon = models.CharField(verbose_name='icône', max_length=50, null=True, blank=True)
     title = models.CharField(verbose_name='titre', max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=True)
@@ -24,7 +24,7 @@ class Tips(models.Model):
         ('Summer', 'Summer'),
         ('Spring', 'Spring'),
     )
-    image = models.FileField(upload_to='img', blank=True, null=True)
+    image = models.FileField(upload_to='img')
     season = models.CharField(
         verbose_name='saison', 
         max_length=200, 
@@ -40,22 +40,22 @@ class Tips(models.Model):
         verbose_name_plural = "Conseil d'entretiens saisonnier"
 
     def __str__(self):
-        return self.title
+        return self.season
 
 
-class Testimonial(models.Model):
-    image = models.FileField(upload_to='img', blank=True, null=True)
-    name = models.CharField(verbose_name='nom', max_length=200)
-    job = models.CharField(verbose_name='job', max_length=200)
-    date_add = models.DateTimeField(auto_now_add=True)
-    date_update = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(default=True)
+# class Testimonial(models.Model):
+#     image = models.FileField(upload_to='img', null=True)
+#     name = models.CharField(verbose_name='nom', max_length=200)
+#     job = models.CharField(verbose_name='job', max_length=200)
+#     date_add = models.DateTimeField(auto_now_add=True)
+#     date_update = models.DateTimeField(auto_now=True)
+#     status = models.BooleanField(default=True)
 
-    class Meta:
-        verbose_name = 'témoignage'
+#     class Meta:
+#         verbose_name = 'témoignage'
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
 class Gallery(models.Model):
