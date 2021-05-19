@@ -5,4 +5,4 @@ def blog(request):
     return render(request, 'blog/blog.html')
 
 def detail(request):
-    return render(request, 'blog-simple.html')
+    return render(request, 'blog/blog-single.html')
