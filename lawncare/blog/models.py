@@ -12,9 +12,16 @@ class Blog(models.Model):
         on_delete=models.CASCADE,
         related_name='author_blogs'
         )
+    tags = models.ManyToManyField("Tag", verbose_name='tags')
     paragraph = models.TextField(verbose_name='paragraphe')
-    date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
-    date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
+    date_add = models.DateTimeField(
+        verbose_name="date d'ajout", 
+        auto_now_add=True
+        )
+    date_update = models.DateTimeField(
+        verbose_name='date de modification', 
+        auto_now=True
+        )
     status = models.BooleanField(default=True)
     
     def __str__(self):
@@ -35,7 +42,6 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='blog_articles'
         )
-    tags = models.ManyToManyField("Tag", verbose_name='tags')
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
     date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
     status = models.BooleanField(default=True)
@@ -63,11 +69,11 @@ class Tag(models.Model):
 
 
 class Author(models.Model):
-    image = models.FileField(upload_to=None, max_length=100)
-    user = models.OneToOneField(
-        get_user_model(), 
-        verbose_name=("utilisateur"), 
-        on_delete=models.CASCADE
+    image = models.FileField(upload_to='img', max_length=100)
+    name = models.CharField(
+        verbose_name='nom', 
+        max_length=200,
+        null=True
         )
     description = models.TextField()
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
@@ -78,7 +84,7 @@ class Author(models.Model):
         verbose_name = 'auteur'
     
     def __str__(self):
-        return self.user.username
+        return self.name
 
 
 class Comment(models.Model):

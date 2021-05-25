@@ -2,10 +2,20 @@ from django.contrib import admin
 from django.utils.html import format_html
 from . import models
 
-# Register your models here.
+#Register your models here.
 @admin.register(models.Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ['display_image', 'title', 'description', 'author']
+    list_display = [
+        'display_image', 
+        'title', 
+        'description', 
+        'author', 
+        'date_add', 
+        'date_update'
+        ]
+    list_display_links = ['title', 'title', 'description']
+    list_filter = ['author', 'date_add', 'date_update']
+    filter_horizontal = ['tags']
 
     def display_image(self, obj):
         return format_html(f'<img src={obj.image.url} width=50px height=50px>')
@@ -17,7 +27,6 @@ class BlogAdmin(admin.ModelAdmin):
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['display_image', 'title', 'description', 'blog']
-    filter_horizontal = ('tags',)
 
     def display_image(self, obj):
         return format_html(f'<img src={obj.image.url} width=80px height=80px>')
@@ -32,7 +41,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(models.Author)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ['display_image', 'user', 'description']
+    list_display = ['display_image', 'name', 'description']
 
     def display_image(self, obj):
         return format_html(f'<img src={obj.image.url} width=80px height=80px>')

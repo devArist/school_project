@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
     {% block body %}
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2" style="background-image: url({{global_banner.image.url}});" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-center">
@@ -16,19 +16,22 @@
 		<section class="ftco-section ftco-no-pt ftco-no-pb">
 		  <div class="container-fluid px-md-0">
         <div class="row no-gutters">
+			{% for gallery in galleries%}
           <div class="col-md-4 ftco-animate">
-            <div class="gallery img d-flex align-items-end" style="background-image: url({% static 'images/gallery-1.jpg' %});">
-            	<a href="{% static 'images/gallery-1.jpg' %}" class="icon image-popup d-flex justify-content-center align-items-center">
+            <div class="gallery img d-flex align-items-end" style="background-image: url({{gallery.image.url}});">
+            	<a href="{{gallery.image.url}}" class="icon image-popup d-flex justify-content-center align-items-center">
 	    					<span class="icon-expand"></span>
 	    				</a>
             	<div class="desc w-100 px-4">
 	              <div class="text w-100 mb-3">
-	              	<span>Nature</span>
-	              	<h2><a href="work-single.html">Beautiful Work</a></h2>
+	              	<span>{{gallery.title}}</span>
+	              	<h2><a href="work-single.html">{{gallery.subtitle}}</a></h2>
 	              </div>
               </div>
             </div>
           </div>
+		  	{% endfor %}
+		  <!--
           <div class="col-md-4 ftco-animate">
             <div class="gallery img d-flex align-items-end" style="background-image: url({% static 'images/gallery-2.jpg' %});">
             	<a href="{% static 'images/gallery-2.jpg' %}" class="icon image-popup d-flex justify-content-center align-items-center">
@@ -135,6 +138,7 @@
               </div>
             </div>
           </div>
+		  -->
         </div>
       </div> 
 		</section>

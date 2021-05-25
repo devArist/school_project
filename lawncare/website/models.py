@@ -40,7 +40,6 @@ class Contact(models.Model):
     email = models.EmailField(verbose_name='email', max_length=200)
     subject = models.CharField(verbose_name='sujet', max_length=200)
     message = models.TextField()
-    description = models.TextField()
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
     date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
     status = models.BooleanField(default=True)
@@ -55,7 +54,6 @@ class Contact(models.Model):
 
 class  Newsletter(models.Model):
     email = models.EmailField(max_length=200)
-    description = models.TextField()
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
     date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
     status = models.BooleanField(default=True)
@@ -69,8 +67,8 @@ class  Newsletter(models.Model):
 
 
 class SocialNetwork(models.Model):
-    icon = models.FileField(upload_to='img', max_length=100)
-    link = models.CharField(verbose_name='lien-fa', max_length=200)
+    icon = models.CharField(max_length=200)
+    link = models.URLField(verbose_name="url", max_length=200)
     name = models.CharField(verbose_name='nom', max_length=200)
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
     date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
@@ -88,8 +86,8 @@ class Website(models.Model):
     address = models.CharField(max_length=200, verbose_name='adresse')
     phone = models.CharField(verbose_name='téléphone', max_length=200)
     email = models.EmailField(verbose_name='email', max_length=200)
+    website = models.URLField(verbose_name='site web', null=True)
     copyrights = models.CharField(verbose_name='copyright', max_length=200)
-    description = models.TextField()
     date_add = models.DateTimeField(verbose_name="date d'ajout", auto_now_add=True)
     date_update = models.DateTimeField(verbose_name='date de modification', auto_now=True)
     status = models.BooleanField(default=True)
@@ -99,7 +97,7 @@ class Website(models.Model):
         verbose_name_plural = 'Informations générales'
     
     def __str__(self):
-        return self.address
+        return self.phone
 
 
 class GlobalBanner(models.Model):
@@ -116,4 +114,4 @@ class GlobalBanner(models.Model):
         verbose_name_plural = 'Bannière générale'
     
     def __str__(self):
-        return 
+        return 'bannère des autres pages du site'

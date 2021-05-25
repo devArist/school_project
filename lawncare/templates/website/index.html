@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {%block body %}
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static "images/bg_1.jpg" %}');" data-stellar-background-ratio="0.5">
+    <div class="hero-wrap js-fullheight" style="background-image: url({{banner.image.url}});" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
           <div class="col-md-6 ftco-animate">
-          	<h2 class="subheading">Welcome to Lawn care</h2>
-          	<h1>Lawn care for everyone </h1>
-            <p class="mb-4">Let us work on your yard</p>
+          	<h2 class="subheading">{{banner.title}}</h2>
+          	<h1>{{banner.subtitle}} </h1>
+            <p class="mb-4">{{banner.description}}</p>
             <p><a href="#" class="btn btn-primary mr-md-4 py-2 px-4">Learn more <span class="ion-ios-arrow-forward"></span></a></p>
           </div>
         </div>
@@ -28,18 +28,23 @@
     			</div>
     			<div class="col-lg-9 services-wrap px-4 pt-5">
     				<div class="row pt-md-3">
+						{% for service in services%}
+						{% if service.icon%}
     					<div class="col-md-4 d-flex align-items-stretch">
 		    				<div class="services text-center">
 		    					<div class="icon d-flex justify-content-center align-items-center">
-		    						<span class="flaticon-fence"></span>
+		    						<span class="{{service.icon}}"></span>
 		    					</div>
 		    					<div class="text">
-		    						<h3>Garden Care</h3>
-		    						<p>Seeking justice in the world is a sed significant emotional and investment when we follow this call.</p>
+		    						<h3>{{service.title}}</h3>
+		    						<p>{{service.description}}</p>
 		    					</div>
 		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
 		    				</div>
 		    			</div>
+						{% endif %}
+						{% endfor %}
+						<!--
 		    			<div class="col-md-4 d-flex align-items-stretch">
 		    				<div class="services text-center">
 		    					<div class="icon d-flex justify-content-center align-items-center">
@@ -64,6 +69,7 @@
 		    					<a href="#" class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></a>
 		    				</div>
 		    			</div>
+					-->
     				</div>
     			</div>
     		</div>
@@ -74,7 +80,7 @@
     	<div class="container">
     		<div class="row d-flex">
     			<div class="col-md-6 d-flex">
-    				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-end" style="background-image:url({% static 'images/about.jpg' %});">
+    				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-end" style="background-image:url({{about.image.url}});">
     					<a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
     						<span class="icon-play"></span>
     					</a>
@@ -83,13 +89,18 @@
     			<div class="col-md-6 pl-md-5">
     				<div class="row justify-content-start py-5">
 		          <div class="col-md-12 heading-section ftco-animate">
-		          	<span class="subheading">Welcome to Lawn Care</span>
-		            <h2 class="mb-4">Welcome to Lawn Care Company</h2>
-		            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+		          	<span class="subheading">{{about.title}}</span>
+		            <h2 class="mb-4">{{about.subtitle}}</h2>
+		            <p>{{about.description}}</p>
 		            <div class="services-wrap">
-		            	<a href="#" class="services-list">Gutter cleaning
+						{% for service in services %}
+						{% if not service.icon%}
+		            	<a href="#" class="services-list">{{service.title}}
 		            		<div class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></div>
 		            	</a>
+						{% endif %}
+						{% endfor %}
+						<!--
 		            	<a href="#" class="services-list">Organinc fertilization and weed control
 		            		<div class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></div>
 		            	</a>
@@ -102,6 +113,7 @@
 		            	<a href="#" class="services-list">Mulch and other services available
 		            		<div class="btn-custom d-flex align-items-center justify-content-center"><span class="ion-ios-arrow-round-forward"></span></div>
 		            	</a>
+						-->
 		            </div>
 		          </div>
 		        </div>
@@ -175,7 +187,7 @@
 						<p>Do you have any comments or questions about the products then contact us.</p>
 					</div>
 					<div class="col-md-5 text-md-right">
-						<span class="contact-number">+00(123) 456-78-09</span>
+						<span class="contact-number">{{information.phone}}</span>
 					</div>
 				</div>
 			</div>
@@ -279,26 +291,29 @@
           </div>
         </div>
         <div class="row d-flex">
+		{% for blog in recent_blogs%}
           <div class="col-md-4 d-flex ftco-animate">
           	<div class="blog-entry justify-content-end">
-              <a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_1.jpg' %}');">
+              <a href={% url 'blog:detail' blog.id %} class="block-20" style="background-image: url({{blog.image.url}});">
               </a>
               <div class="text p-4 float-right d-block">
               	<div class="topper d-flex align-items-center">
               		<div class="one py-2 pl-3 pr-1 align-self-stretch">
-              			<span class="day">24</span>
+              			<span class="day">{{blog.date_add|date:"j"}}</span>
               		</div>
               		<div class="two pl-0 pr-3 py-2 align-self-stretch">
-              			<span class="yr">2020</span>
-              			<span class="mos">January</span>
+              			<span class="yr">{{blog.date_add|date:"Y"}}</span>
+              			<span class="mos">{{blog.date_add|date:"F"}}</span>
               		</div>
               	</div>
-              	<h3 class="heading mb-0"><a href="#">All you want to know about industrial laws</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+              	<h3 class="heading mb-0"><a href="#">{{blog.title}}</a></h3>
+                <p>{{blog.description|truncatechars:"100"}}</p>
                 <p><a href="#" class="btn btn-primary">Read more</a></p>
               </div>
             </div>
           </div>
+		{% endfor %}
+		  <!--
           <div class="col-md-4 d-flex ftco-animate">
           	<div class="blog-entry justify-content-end">
               <a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_2.jpg' %}');">
@@ -339,6 +354,7 @@
               </div>
             </div>
           </div>
+		  -->
         </div>
       </div>
     </section>
