@@ -201,6 +201,7 @@
                 email:'',
                 subject:'',
                 message:'',
+                url: "{% url 'website:form-process' %}",
               },
               methods:{
                 postData(){
@@ -220,7 +221,7 @@
                       timer:2000,
                     })
                   }
-                  else if (!/(\w.?)+@(\w.?)+/.test(this.email)){
+                  else if (!/(\w\.?)+@(\w\.?)+\.[a-z]{2,3}/.test(this.email)){
                     swal.fire({
                       icon:'error',
                       text:'Veuillez saisir un email valide',
@@ -235,7 +236,37 @@
                     form.append('subject', this.subject);
                     form.append('message', this.message);
 
-                    console.log(JSON.stringify(form));
+                    axios.defaults.xsrfCookieName = "csrftoken"
+                    axios.defaults.xsrfHeaderName = "X-CSRFToken"
+
+                    axios.post(
+                      this.url, 
+                      form
+                      ).then((response) => {
+                        if (response.data.success){
+                          swal.fire(
+                            {
+                              icon: 'success',
+                              text: response.data.message,
+                              showConfirmButton: false,
+                              timer: 2000,
+                            }
+                          ).then(() => {
+                            window.location.reload()
+                          })
+                        }
+                        else {
+                          swal.fire(
+                            {
+                              icon: 'error',
+                              text: response.data.message,
+                              showConfirmButton: false,
+                              timer: 2000,
+                            }
+                          )
+                        }
+                      })
+                  
                   }
                 }
               },
