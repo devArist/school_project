@@ -189,5 +189,90 @@
       
         gtag('config', 'UA-23581568-13');
       </script>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+          new Vue(
+            {
+              el:'#contactForm',
+              data:{
+                name:'',
+                email:'',
+                subject:'',
+                message:'',
+                url: "{% url 'website:form-process' %}",
+              },
+              methods:{
+                postData(){
+                  if (this.name === '' || this.email === '' || this.subject === '' || this.message === ''){
+                    swal.fire({
+                      icon:'error',
+                      text:'Veuillez remplir les champs vides',
+                      showConfirmButton:false,
+                      timer:2000,
+                    })
+                  }
+                  else if (!/[A-Za-zäöëüï'éè ]+/.test(this.name)){
+                    swal.fire({
+                      icon:'error',
+                      text:'Veuillez saisir un nom valide',
+                      showConfirmButton:false,
+                      timer:2000,
+                    })
+                  }
+                  else if (!/(\w\.?)+@(\w\.?)+\.[a-z]{2,3}/.test(this.email)){
+                    swal.fire({
+                      icon:'error',
+                      text:'Veuillez saisir un email valide',
+                      showConfirmButton:false,
+                      timer:2000,
+                    })
+                  }
+                  else{
+                    form = new FormData();
+                    form.append('name', this.name);
+                    form.append('email', this.email);
+                    form.append('subject', this.subject);
+                    form.append('message', this.message);
+
+                    axios.defaults.xsrfCookieName = "csrftoken"
+                    axios.defaults.xsrfHeaderName = "X-CSRFToken"
+
+                    axios.post(
+                      this.url, 
+                      form
+                      ).then((response) => {
+                        if (response.data.success){
+                          swal.fire(
+                            {
+                              icon: 'success',
+                              text: response.data.message,
+                              showConfirmButton: false,
+                              timer: 2000,
+                            }
+                          ).then(() => {
+                            window.location.reload()
+                          })
+                        }
+                        else {
+                          swal.fire(
+                            {
+                              icon: 'error',
+                              text: response.data.message,
+                              showConfirmButton: false,
+                              timer: 2000,
+                            }
+                          )
+                        }
+                      })
+                  
+                  }
+                }
+              },
+              delimiters:['%{', '}'],
+            }
+          )
+      </script>
     </body>
 </html>
