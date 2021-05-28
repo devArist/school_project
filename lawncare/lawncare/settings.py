@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--%u1!@um+%bz#(g)!09$9y$q=e_rja!n!1oocbyr_dsjx650u!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['arischoolproject.herokuapp.com']
 
 
 # Application definition
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'lawncare.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
